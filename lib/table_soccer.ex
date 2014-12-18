@@ -8,7 +8,7 @@ defmodule TableSoccer do
 
     children = [
       # Define workers and child supervisors to be supervised
-      worker(Table, [:waiting])
+      worker(Table,[], [debug: [:trace]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
