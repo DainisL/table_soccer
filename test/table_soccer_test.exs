@@ -1,20 +1,34 @@
 defmodule TableSoccerTest do
-  require TableOptions
-  use ExUnit.Case, async: true
+  use ExUnit.Case
+  setup do
+    Application.stop(:table_soccer)
+    Application.start(:table_soccer)
+  end
+
+  test "add palyers" do
+    Table.add_player("ertt42")
+    {status, options, side} = Table.add_player("ertt42")
+    assert(options.player_l |> Process.alive?)
+    assert(options.player_r |> Process.alive?)
+    assert Table.current_state ==  :ready
+  end
+end
+
+
+defmodule DefaultState do
+  use ExUnit.Case
+
+  setup do
+    Application.stop(:table_soccer)
+    Application.start(:table_soccer)
+  end
 
   test "set waiting game" do
-    assert TableOptions.options(Table.current_state, :status) ==  :waiting
+    assert Table.current_state ==  :waiting
   end
 
-  test "add players" do
-    response = Table.add_player("ertt42")
-    assert true ==  TableOptions.options(response, :player_l) |> Process.alive?
-    # assert Table.add_player("e22t42") ==  %{done: :right}
+  test "add player_l" do
+    { state, options, side } = Table.add_player("ertt42")
+    assert true == Map.get(options, side) |> Process.alive?
   end
-
-  # test "change status when added players" do
-  #   assert Table.add_player({id: "ertt42"}) ==  {done: :left}
-  #   assert Table.add_player({id: "e22t42"}) ==  {done: :right}
-  #   assert Table.current_state ==  :ready
-  # end
 end

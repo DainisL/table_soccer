@@ -1,8 +1,6 @@
 defmodule Player do
-  require PlayerOptions
-
   def start_link(id, side) do
-    options = PlayerOptions.options(side: side, id: id)
+    options = %{side: side, id: id}
     pid = spawn_link(fn -> loop(options) end)
     {:ok, pid}
   end
