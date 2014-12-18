@@ -16,7 +16,8 @@ defmodule Table  do
   end
 
   def add_player(id, options) do
-    pid = spawn_link
+    {:ok, pid} = Player.start_link(id, :left)
+    TableOptions.options(options, player_l: pid)
   end
 
 
@@ -25,8 +26,8 @@ defmodule Table  do
   end
 
   def handle_call({:add_player, id}, _from, options) do
-    player = add_player(id, options)
-    {:reply, player, options }
+    new_options = add_player(id, options)
+    {:reply, new_options, new_options }
     # %{done: :left}
   end
 end

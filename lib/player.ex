@@ -1,17 +1,21 @@
-  defmodule Player do
-  use GenServer
+defmodule Player do
+  require PlayerOptions
 
-  defstruct side: nil, id: nil, score: 0
-
-  def start_link() do
-    {:ok, _pid} = GenServer.start_link(__MODULE__, name: __MODULE__)
+  def start_link(id, side) do
+    options = PlayerOptions.options(side: side, id: id)
+    pid = spawn_link(fn -> loop(options) end)
+    {:ok, pid}
   end
 
-  def handle_call(:add, _from, [h|t]) do
-    {:reply, h, t}
-  end
-
-  def handle_call(:side, _from) do
-    {:reply, :side}
+  defp loop(options) do
+    receive do
+      {:get, key, caller} ->
+        send caller, options
+        loop(options)
+      {:put, key, value} ->
+        loop(options)
+      _ ->
+        loop(options)
+    end
   end
 end
