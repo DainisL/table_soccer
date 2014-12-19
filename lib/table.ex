@@ -24,13 +24,12 @@ defmodule Table  do
   end
 
   def handle_call({:add_player, id}, _from, options) do
-
     case Player.add_player(id, options, options.status) do
       {:ok, new_options, side} ->
         opt = if_ready_to_play(new_options)
         {:reply, {:ok, opt.status, opt, side}, opt }
       {:noting, _} ->
-        {:reply, {:retry, options.status, options}, options }
+        {:reply, {:error, options.status, options}, options }
     end
   end
 

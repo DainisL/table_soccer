@@ -25,6 +25,10 @@ defmodule Player do
     end
   end
 
+  def add_player(id, options, _) do
+    {:noting, options}
+  end
+
   def validate_uniq(id, options) do
     if Map.values(options) |> Enum.any?(&(&1 == id)) do
       {:already_exists, options}
