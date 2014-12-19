@@ -43,7 +43,7 @@ defmodule Table  do
     end
   end
 
-  defp if_ready_to_play(options) do
+  def if_ready_to_play(options) do
     if is_pid(options.player_r) && is_pid(options.player_r) do
       %{options | status: :ready}
     else
@@ -51,7 +51,7 @@ defmodule Table  do
     end
   end
 
-  defp select_side(options) do
+  def select_side(options) do
     case options do
       %{status: :waiting, player_l: nil, player_r: _} ->
         {:ok, :player_l}
