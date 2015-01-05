@@ -2,7 +2,7 @@ defmodule Table  do
   use GenServer
 
   def start_link() do
-    options = %{status: :waiting, player_l: nil, player_r: nil}
+    options = %{status: :waiting, player_l: nil, player_r: nil, counter_id: nil}
     {:ok, _pid} = GenServer.start_link(__MODULE__, options, name: __MODULE__)
   end
 
