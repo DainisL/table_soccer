@@ -2,7 +2,7 @@ defmodule Table  do
   use GenServer
 
   def start_link() do
-    options = %{status: :waiting, player_l: nil, player_r: nil, counter_id: nil}
+    options = %{status: :waiting, player_l: nil, player_r: nil, counter_pid: nil}
     {:ok, _pid} = GenServer.start_link(__MODULE__, options, name: __MODULE__)
   end
 
@@ -14,7 +14,12 @@ defmodule Table  do
     GenServer.call __MODULE__, {:add_player, id}
   end
 
-  def add_player(id, options, :ready) do
+  def add_point(side, options, :ready) do
+    {:noting, options}
+  end
+
+  def add_point(side, options, :ready) do
+    GenServer.call(options.counter_pid, {:point, side})
     {:noting, options}
   end
 
@@ -35,9 +40,15 @@ defmodule Table  do
 
   def if_ready_to_play(options) do
     if is_bitstring(options.player_r) && is_bitstring(options.player_r) do
-      %{options | status: :ready}
+      {:ok, pid} = start_game
+      %{options | status: :ready} |>
+      Map.put(:counter_pid, pid)
     else
       options
     end
+  end
+
+  defp start_game do
+    {:ok, pid} = Counter.start_link
   end
 end

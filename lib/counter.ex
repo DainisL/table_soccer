@@ -1,8 +1,8 @@
 defmodule Counter do
   use GenServer
 
-  def start_link(game_id) do
-    options = %{player_l: 0, player_r: 0, game_id: game_id }
+  def start_link do
+    options = %{player_l: 0, player_r: 0, game_id: create_game }
     {:ok, _pid} = GenServer.start_link(__MODULE__, options, name: __MODULE__)
   end
 
@@ -17,5 +17,9 @@ defmodule Counter do
 
   def handle_call(:points, _from, options) do
     {:reply, {:ok, options}, options}
+  end
+
+  defp create_game do
+    ""
   end
 end

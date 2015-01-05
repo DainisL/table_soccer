@@ -11,6 +11,6 @@ defmodule TableSoccerTest do
     {:ok, last_opt, _} = Player.add_player("98765", options, options.status)
 
     status = Table.if_ready_to_play(last_opt) |> Map.get(:status)
-    assert status = :ready
+    assert status == :ready
   end
 end
