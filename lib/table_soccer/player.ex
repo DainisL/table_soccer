@@ -1,4 +1,4 @@
-defmodule Player do
+defmodule TableSoccer.Player do
   def select_side(options) do
     case options do
       %{status: :waiting, player_l: nil, player_r: _} ->
@@ -25,7 +25,7 @@ defmodule Player do
     end
   end
 
-  def add_player(id, options, _) do
+  def add_player(_id, options, _) do
     {:noting, options}
   end
 

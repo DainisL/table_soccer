@@ -1,4 +1,7 @@
-defmodule Table  do
+defmodule TableSoccer.Table  do
+  alias TableSoccer.Player, as: Player
+  alias TableSoccer.Counter, as: Counter
+
   use GenServer
 
   def start_link() do
@@ -15,14 +18,9 @@ defmodule Table  do
   end
 
   def add_point(side, options, :ready) do
-    {:noting, options}
-  end
-
-  def add_point(side, options, :ready) do
     GenServer.call(options.counter_pid, {:point, side})
     {:noting, options}
   end
-
 
   def handle_call(:status, _from, options) do
     {:reply, options.status, options}
@@ -50,5 +48,6 @@ defmodule Table  do
 
   defp start_game do
     {:ok, pid} = Counter.start_link
+    {:ok, pid}
   end
 end

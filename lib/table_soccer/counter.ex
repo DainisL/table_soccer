@@ -1,4 +1,4 @@
-defmodule Counter do
+defmodule TableSoccer.Counter do
   use GenServer
 
   def start_link do
