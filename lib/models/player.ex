@@ -1,5 +1,6 @@
 defmodule Models.Player do
   use Ecto.Model
+  validate game, first_name: present(), last_name: present(), email: present()
 
   schema "players" do
     field :first_name, :string
