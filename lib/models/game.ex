@@ -1,7 +1,7 @@
 defmodule Models.Game do
-  alias TableSoccer.Db.Repo, as: Repo
-
   use Ecto.Model
+  import Models.CrudActions
+
   validate game, player_l_id: present(), player_r_id: present()
 
   schema "games" do
@@ -13,46 +13,9 @@ defmodule Models.Game do
     field :updated_at, :datetime, default: Ecto.DateTime.local
   end
 
-  def create(attrs) when is_map(attrs) do
-    item = Map.merge(%__MODULE__{}, attrs)
-    case __MODULE__.validate(item) do
-      nil ->
-        Repo.insert(item)
-      errors ->
-        "Errors #{ inspect errors}"
-    end
-  end
+  def find_by_id(id), do: find_by_id(id, __MODULE__)
 
-   def create(attrs) when is_map(attrs) do
-    item = Map.merge(%__MODULE__{}, attrs)
-    case __MODULE__.validate(item) do
-      nil ->
-        Repo.insert(item)
-      errors ->
-        "Errors #{ inspect errors }"
-    end
-  end
+  def create(attrs), do: create(attrs, __MODULE__ )
 
-  def find_by_id(id) do
-    Repo.get(__MODULE__, id)
-  end
-
-  def update(id, attrs) when is_map(attrs) do
-    case find_by_id(id) do
-      item when is_map(item) ->
-        item = Map.merge(item, attrs)
-        case __MODULE__.validate(item) do
-          [] ->
-            Repo.update(item)
-            item
-          _ ->
-            nil
-        end
-      _ ->
-        nil
-    end
-  end
-
-  def update(_, _), do: "attrs need to be map %{}"
-  def create(_), do: "attrs need to be map %{}"
+  def update(id, attrs), do: update(id, attrs, __MODULE__ )
 end

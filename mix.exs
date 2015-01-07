@@ -27,7 +27,7 @@ defmodule TableSoccer.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [ {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 0.4"}
+      {:ecto, github: "DiatomEnterprises/ecto"}
     ]
   end
 end

@@ -1,0 +1,36 @@
+defmodule Models.CrudActions do
+  alias TableSoccer.Db.Repo, as: Repo
+
+  def find_by_id(id, module) do
+    Repo.get(module, id)
+  end
+
+  def create(attrs, module) when is_map(attrs) do
+    item = Map.merge(module.__struct__, attrs)
+    case module.validate(item) do
+      nil ->
+        {:ok, Repo.insert(item)}
+      errors ->
+        "Errors #{ inspect errors}"
+    end
+  end
+
+  def update(id, attrs, module) when is_map(attrs) do
+    case find_by_id(id, module) do
+      item when is_map(item) ->
+        item = Map.merge(item, attrs)
+        case module.validate(item) do
+          [] ->
+            Repo.update(item)
+            item
+          _ ->
+            nil
+        end
+      _ ->
+        nil
+    end
+  end
+
+  def update(_, _, _module), do: "attrs need to be map %{}"
+  def create(_, _module), do: "attrs need to be map %{}"
+end
