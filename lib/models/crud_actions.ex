@@ -20,14 +20,14 @@ defmodule Models.CrudActions do
       item when is_map(item) ->
         item = Map.merge(item, attrs)
         case module.validate(item) do
-          [] ->
+          nil ->
             Repo.update(item)
-            item
-          _ ->
-            nil
+            {:ok, item}
+          errors ->
+            {:error, errors}
         end
       _ ->
-        nil
+        {:failed, "need to be Map %{}"}
     end
   end
 
