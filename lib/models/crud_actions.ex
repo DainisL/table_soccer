@@ -21,8 +21,8 @@ defmodule Models.CrudActions do
         item = Map.merge(item, attrs)
         case module.validate(item) do
           nil ->
-            Repo.update(item)
-            {:ok, item}
+            new = Repo.update(item)
+            {:ok, new}
           errors ->
             {:error, errors}
         end
