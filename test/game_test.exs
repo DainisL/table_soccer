@@ -2,6 +2,8 @@ defmodule GameTest do
   use ExUnit.Case
   setup do
     TableSoccer.Db.Repo.delete_all(Models.Game)
+    Application.stop(:table_soccer)
+    Application.start(:table_soccer)
     :ok
   end
 

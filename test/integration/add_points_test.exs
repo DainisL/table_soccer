@@ -15,8 +15,8 @@ defmodule Integration.AddPointsTest do
     {:ok, item_1} = Models.Player.create(attrs_1)
     {:ok, item_2} = Models.Player.create(attrs_2)
 
-    TableSoccer.Table.add_player(item_1.id)
-    TableSoccer.Table.add_player(item_2.id)
+    TableSoccer.Table.add_player(item_1.rfid)
+    TableSoccer.Table.add_player(item_2.rfid)
 
     assert :ready == TableSoccer.Table.current_state
   end
