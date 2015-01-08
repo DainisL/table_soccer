@@ -23,8 +23,8 @@ defmodule PlayerTest do
   end
 
   test "validate uniq player" do
-    assert {:ok, _} = TableSoccer.Player.validate_uniq("12345", %{status: :waiting, player_l: nil, player_r: nil})
-    assert {:already_exists, _} = TableSoccer.Player.validate_uniq("12345", %{status: :waiting, player_l: "12345", player_r: nil})
+    assert {:ok, _} = TableSoccer.Player.validate_uniq(12345, %{status: :waiting, player_l: nil, player_r: nil})
+    assert {:already_exists, _} = TableSoccer.Player.validate_uniq(12345, %{status: :waiting, player_l: 12345, player_r: nil})
   end
 
   test "select_side" do

@@ -34,7 +34,7 @@ defmodule Models.Player do
 
   def is_rfid_active(id) do
     case find_by_id(id) do
-      item  when is_map item  ->
+      {:ok, item}  when is_map item  ->
         {:ok, valid_rfid(item.rfid), item}
       _ ->
         {:failed, "not found"}

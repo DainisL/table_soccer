@@ -2,7 +2,12 @@ defmodule Models.CrudActions do
   alias TableSoccer.Db.Repo, as: Repo
 
   def find_by_id(id, module) do
-    Repo.get(module, id)
+    case Repo.get(module, id) do
+      item ->
+        {:ok, item}
+      _->
+        {:failed, "not found"}
+    end
   end
 
   def create(attrs, module) when is_map(attrs) do
@@ -17,7 +22,7 @@ defmodule Models.CrudActions do
 
   def update(id, attrs, module) when is_map(attrs) do
     case find_by_id(id, module) do
-      item when is_map(item) ->
+      {:ok, item} when is_map(item) ->
         item = Map.merge(item, attrs)
         case module.validate(item) do
           nil ->
