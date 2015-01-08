@@ -24,7 +24,7 @@ defmodule Moduls.PlayerTest do
   test "is_rfid_active" do
     attrs = %{first_name: "first_name", last_name: "last_name",email: "email@email.lv", rfid: "232432hhdh"}
     {:ok, item} = Models.Player.create(attrs)
-    assert {:ok, true} = Models.Player.is_rfid_active(item.id)
+    assert {:ok, true, item} = Models.Player.is_rfid_active(item.id)
     assert {:failed, _} = Models.Player.is_rfid_active("-1")
   end
 

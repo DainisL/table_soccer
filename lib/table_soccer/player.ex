@@ -11,6 +11,15 @@ defmodule TableSoccer.Player do
   end
 
   def add_player(id, options, :waiting) do
+    case Models.Player.find_by_rfid(id) do
+      {:ok, item} ->
+        to_place_player(item.id, options)
+      {:failed, message} ->
+        {:failed, message }
+    end
+  end
+
+  def to_place_player(id, options) do
     case validate_uniq(id, options) do
       {:ok, _} ->
         case select_side(options) do
@@ -24,6 +33,7 @@ defmodule TableSoccer.Player do
         {:already_exists, options}
     end
   end
+
 
   def add_player(_id, options, _) do
     {:noting, options}
