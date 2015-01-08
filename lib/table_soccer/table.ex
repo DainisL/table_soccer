@@ -17,13 +17,26 @@ defmodule TableSoccer.Table  do
     GenServer.call __MODULE__, {:add_player, id}
   end
 
-  def add_point(side, options, :ready) do
-    GenServer.call(options.game_pid, {:point, side})
-    {:noting, options}
+  def add_point(side) do
+    case current_state do
+      :ready ->
+        GenServer.call __MODULE__, {:add_point, side}
+      :waiting ->
+        {:error, "game not started"}
+    end
   end
 
   def handle_call(:status, _from, options) do
     {:reply, options.status, options}
+  end
+
+  def handle_call({:add_point, side}, _from, options) do
+    case GenServer.call(options.game_pid, {:point, side}) do
+      {:ok, opt} ->
+        {:reply, {:ok, side, opt }, opt }
+      {:win, win_side, options} ->
+        {:reply, {:win, win_side, options}, options }
+    end
   end
 
   def handle_call({:add_player, id}, _from, options) do

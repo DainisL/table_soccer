@@ -29,8 +29,12 @@ defmodule GameTest do
     assert options.game_id |> is_integer
   end
 
-  # test "finished game when one of player win" do
-
-  # end
+  test "finished game when one of player win" do
+    player_ids = %{id_l: 20, id_r: 21}
+    {:ok, pid} = TableSoccer.Game.start_link(player_ids)
+    Enum.map(1..5, fn _ -> GenServer.call(pid, {:point, :score_r}) end)
+    Enum.map(1..9, fn _ -> GenServer.call(pid, {:point, :score_l}) end)
+    assert {:win, :score_l, opt} = GenServer.call(pid, {:point, :score_l})
+  end
 
 end

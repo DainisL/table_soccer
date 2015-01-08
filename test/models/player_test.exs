@@ -24,14 +24,14 @@ defmodule Moduls.PlayerTest do
   test "is_rfid_active" do
     attrs = %{first_name: "first_name", last_name: "last_name",email: "email@email.lv", rfid: "232432hhdh"}
     {:ok, item} = Models.Player.create(attrs)
-    assert {:ok, true, item} = Models.Player.is_rfid_active(item.id)
+    assert {:ok, true, _item} = Models.Player.is_rfid_active(item.id)
     assert {:failed, _} = Models.Player.is_rfid_active("-1")
   end
 
   test "find_by_rfid" do
     attrs = %{first_name: "first_name", last_name: "last_name",email: "email@email.lv", rfid: "77777777"}
-    {:ok, item} = Models.Player.create(attrs)
-    assert {:ok, item} = Models.Player.find_by_rfid(attrs.rfid)
+    {:ok, _item} = Models.Player.create(attrs)
+    assert {:ok, _item} = Models.Player.find_by_rfid(attrs.rfid)
     assert {:failed, _} = Models.Player.find_by_rfid("not_found")
   end
 end
